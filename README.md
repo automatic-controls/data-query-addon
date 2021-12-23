@@ -1,2 +1,5 @@
-# node-report-addon
-WebCTRL add-on that imports and exports CSV data for nodes on the geographic tree.
+# NodeReporter
+
+WebCTRL add-on that imports and exports node values as CSV data. Report parameters are defined using JSON files.
+
+WORK IN PROGRESS
