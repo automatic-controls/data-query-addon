@@ -1,0 +1,27 @@
+{
+  "$schema":"..\\schema.json",
+  "matchers":{
+    "main":{
+      "locationTypes":["System","Area"],
+      "maxDepth":0,
+      "matchFlag":"POSSESIVE",
+      "next":[
+        {
+          "id":"equip",
+          "locationTypes":["Equipment"],
+          "next":[
+            {
+              "nodeTypes":[270]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "columns":[
+    {
+      "name":"Equipment",
+      "value":""
+    }
+  ]
+}

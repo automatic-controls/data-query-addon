@@ -1,4 +1,184 @@
 {
   "$schema":"http://json-schema.org/draft-07/schema",
-  "$id":""
+  "definitions":{
+    "locationType":{
+      "enum":[
+        "Area",
+        "Device",
+        "Directory",
+        "Driver",
+        "Equipment",
+        "Group",
+        "Microblock",
+        "MicroblockComponent",
+        "Network",
+        "Site",
+        "System"
+      ]
+    },
+    "aspectType":{
+      "enum":[
+        "AlarmSource",
+        "AnalogNetworkIO",
+        "AnalogNetworkIOCollector",
+        "AnalogTrendSource",
+        "AttachedEquipment",
+        "BACnetObjectSource",
+        "BinaryNetworkIO",
+        "Device",
+        "DigitalTrendSource",
+        "Driver",
+        "EquipmentColorTrendSource",
+        "Group",
+        "Lockable",
+        "Microblock",
+        "ModuleStatus",
+        "NetworkIO",
+        "PhysicalPoint",
+        "PresentValue",
+        "ProtocolMapping",
+        "Schedulable",
+        "SetPoint",
+        "SetPointAdjust",
+        "TrendSource"
+      ]
+    },
+    "treeRegex":{
+      "anyOf":[
+        {
+          "description":"Matches nodes on WebCTRL trees.",
+          "type":"object",
+          "additionalProperties":false,
+          "minProperties":1,
+          "default":{},
+          "properties":{
+            "id":{
+              "description":"Used to reference this node in column definitions.",
+              "type":"string",
+              "default":""
+            },
+            "tree":{
+              "description":"Jump to another tree before evaluating match conditions. By default, all matchers start at the root of the geographic tree.",
+              "default":"Geographic",
+              "enum":[
+                "Geographic",
+                "Network"
+              ]
+            },
+            "referenceName":{
+              "description":"Regular expression to match reference names against.",
+              "type":"string",
+              "default":"^$"
+            },
+            "displayName":{
+              "description":"Regular expression to match display names against.",
+              "type":"string",
+              "default":"^$"
+            },
+            "locationTypes":{
+              "description":"List of location types to match against (logically bound by OR).",
+              "type":"array",
+              "default":[],
+              "uniqueItems":true,
+              "minItems":1,
+              "additionalItems":false,
+              "items":{
+                "$ref":"#/definitions/locationType"
+              }
+            },
+            "nodeTypes":{
+              "description":"List of node types to match against (logically bound by OR).",
+              "type":"array",
+              "default":[],
+              "uniqueItems":true,
+              "minItems":1,
+              "additionalItems":false,
+              "items":{
+                "type":"number",
+                "minimum":0
+              }
+            },
+            "aspects":{
+              "description":"List of aspects to match against (logically bound by AND).",
+              "type":"array",
+              "default":[],
+              "uniqueItems":true,
+              "minItems":1,
+              "additionalItems":false,
+              "items":{
+                "$ref":"#/definitions/aspectType"
+              }
+            },
+            "minDepth":{
+              "description":"Minimum depth of match.",
+              "type":"number",
+              "minimum":0,
+              "default":1
+            },
+            "maxDepth":{
+              "description":"Maximum depth of match. 0 implies there is no maximum.",
+              "type":"number",
+              "minimum":0,
+              "default":1
+            },
+            "matchFlag":{
+              "description":"Flag which may affect match semantics.",
+              "default":"GREEDY",
+              "enum":["GREEDY", "RELUCTANT", "POSSESIVE"]
+            },
+            "next":{
+              "description":"List of matchers applied to newly validated nodes (logically bound by OR).",
+              "type":"array",
+              "default":[],
+              "uniqueItems":true,
+              "minItems":1,
+              "additionalItems":false,
+              "items":{
+                "$ref":"#/definitions/treeRegex"
+              }
+            },
+            "columns":{
+              "description":"Defines a set of columns for each node validated by this matcher.",
+              "$comment":"TODO - finish column definition, maybe delete id property, need a way to "
+            }
+          }
+        },
+        {
+          "description":"References a location matcher defined elsewhere.",
+          "type":"string",
+          "default":""
+        }
+      ]
+    }
+  },
+  "description":"Root schema for node report definitions.",
+  "type":"object",
+  "required":["main"],
+  "additionalProperties":false,
+  "default":{},
+  "properties":{
+    "$schema":{
+      "description":"Location of the validation schema for this document.",
+      "type":"string"
+    },
+    "main":{
+      "description":"Matchers invoked when the report executes.",
+      "type":"array",
+      "default":[],
+      "uniqueItems":true,
+      "minItems":1,
+      "items":{
+        "$ref":"#/definitions/treeRegex"
+      }
+    },
+    "matchers":{
+      "description":"Library of location matchers used to harvest data from WebCTRL.",
+      "type":"object",
+      "default":{},
+      "minProperties":1,
+      "additionalProperties":{
+        "$ref":"#/definitions/treeRegex"
+      }
+    }
+  }
 }
