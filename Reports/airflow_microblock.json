@@ -1,27 +1,189 @@
 {
-  "$schema":"..\\schema.json",
-  "matchers":{
-    "main":{
-      "locationTypes":["System","Area"],
+  "$schema":"https://raw.githubusercontent.com/automatic-controls/data-query-addon/main/schema.json",
+  "matchers":[
+    {
+      "expression":[
+        {
+          "value1":{
+            "property":"LocationType"
+          },
+          "value2":"System",
+          "operator":"=="
+        },
+        {
+          "value1":{
+            "property":"LocationType"
+          },
+          "value2":"Area",
+          "operator":"=="
+        }
+      ],
       "maxDepth":0,
       "matchFlag":"POSSESIVE",
       "next":[
         {
-          "id":"equip",
-          "locationTypes":["Equipment"],
+          "ID":"E",
+          "expression":[
+            {
+              "value1":{
+                "property":"LocationType"
+              },
+              "value2":"Equipment",
+              "operator":"=="
+            }
+          ],
           "next":[
             {
-              "nodeTypes":[270]
+              "expression":[
+                {
+                  "value1":{
+                    "property":"GQL(.node-type)"
+                  },
+                  "value2":"270",
+                  "operator":"=="
+                }
+              ],
+              "columns":[
+                {
+                  "name":"Display Name",
+                  "data":{
+                    "value":{
+                      "ID":"E",
+                      "property":"DisplayName"
+                    }
+                  }
+                },
+                {
+                  "name":"1 Inch Spec (cfm)",
+                  "data":[
+                    {
+                      "expression":[
+                        {
+                          "value1":{
+                            "property":"ReferenceName"
+                          },
+                          "value2":"flow_at_one_inch",
+                          "operator":"=="
+                        }
+                      ],
+                      "data":{
+                        "value":{
+                          "property":"NodeValue"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name":"Cooling Max (cfm)",
+                  "data":[
+                    {
+                      "expression":[
+                        {
+                          "value1":{
+                            "property":"ReferenceName"
+                          },
+                          "value2":"max_cool",
+                          "operator":"=="
+                        }
+                      ],
+                      "data":{
+                        "value":{
+                          "property":"NodeValue"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name":"Occupied Min (cfm)",
+                  "data":[
+                    {
+                      "expression":[
+                        {
+                          "value1":{
+                            "property":"ReferenceName"
+                          },
+                          "value2":"occ_min",
+                          "operator":"=="
+                        }
+                      ],
+                      "data":{
+                        "value":{
+                          "property":"NodeValue"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name":"Heating Max (cfm)",
+                  "data":[
+                    {
+                      "expression":[
+                        {
+                          "value1":{
+                            "property":"ReferenceName"
+                          },
+                          "value2":"max_heat",
+                          "operator":"=="
+                        }
+                      ],
+                      "data":{
+                        "value":{
+                          "property":"NodeValue"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name":"Aux Heat Min (cfm)",
+                  "data":[
+                    {
+                      "expression":[
+                        {
+                          "value1":{
+                            "property":"ReferenceName"
+                          },
+                          "value2":"aux_min",
+                          "operator":"=="
+                        }
+                      ],
+                      "data":{
+                        "value":{
+                          "property":"NodeValue"
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name":"Unoccupied Min (cfm)",
+                  "data":[
+                    {
+                      "expression":[
+                        {
+                          "value1":{
+                            "property":"ReferenceName"
+                          },
+                          "value2":"unocc_min",
+                          "operator":"=="
+                        }
+                      ],
+                      "data":{
+                        "value":{
+                          "property":"NodeValue"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
       ]
-    }
-  },
-  "columns":[
-    {
-      "name":"Equipment",
-      "value":""
     }
   ]
 }
