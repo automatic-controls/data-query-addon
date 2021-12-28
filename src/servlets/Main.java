@@ -13,10 +13,35 @@ public class Main extends HttpServlet {
     try{
       DirectAccess.getDirectAccess().getRootSystemConnection().runReadAction(FieldAccessFactory.newDisabledFieldAccess(), new ReadAction(){
         public void execute(SystemAccess sys){
-          sys.getGeoRoot().;
+          sys.getGeoRoot();
           
         }
       });
+      /*
+      AlarmSource
+      AnalogNetworkIO
+      AnalogNetworkIOCollector
+      AnalogTrendSource
+      AttachedEquipment
+      BACnetObjectSource
+      BinaryNetworkIO
+      Device
+      DigitalTrendSource
+      Driver
+      EquipmentColorTrendSource
+      Group
+      Lockable
+      Microblock
+      ModuleStatus
+      NetworkIO
+      PhysicalPoint
+      PresentValue
+      ProtocolMapping
+      Schedulable
+      SetPoint
+      SetPointAdjust
+      TrendSource
+      */
     }catch(Exception e){
 
     }
