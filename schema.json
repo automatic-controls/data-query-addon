@@ -865,6 +865,11 @@
               "boolean"
             ]
           },
+          "default":{
+            "description":"The default input for this parameter.",
+            "type":"string",
+            "default":""
+          },
           "pattern":{
             "description":"Regular expression to validate the user's input for this parameter.",
             "type":"string",
@@ -888,6 +893,11 @@
       "description":"Location of the validation schema for this document.",
       "type":"string",
       "default":""
+    },
+    "hideWhenValid":{
+      "description":"The default selection for whether to hide all valid rows.",
+      "type":"boolean",
+      "default":false
     },
     "params":{
       "$ref":"#/definitions/params"
