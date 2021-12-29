@@ -751,8 +751,8 @@
         },
         "matchFlag":{
           "description":"Flag which may affect match semantics.",
-          "default":"GREEDY",
-          "enum":["GREEDY", "RELUCTANT", "POSSESIVE"]
+          "default":"ALL",
+          "enum":["ALL", "GREEDY", "RELUCTANT", "POSSESIVE"]
         },
         "next":{
           "description":"Each matcher listed here is tested against every matched node.",
