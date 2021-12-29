@@ -643,6 +643,7 @@
           },
           "properties":{
             "tree":{
+              "description":"Specifies the tree to generate a link for (CFG, GEO, GRP, or NET).",
               "default":"GEO",
               "enum":[
                 "CFG",
