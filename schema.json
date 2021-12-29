@@ -571,6 +571,7 @@
           "$ref":"#/definitions/dataConst"
         },
         "operator":{
+          "default":"==",
           "enum":[
             "==",
             "!=",
@@ -628,6 +629,50 @@
         "value":{
           "$ref":"#/definitions/dataConst"
         },
+        "link":{
+          "description":"Generates a clickable link over this data.",
+          "type":"object",
+          "required":["tree"],
+          "additionalProperties":false,
+          "default":{
+            "tree":"GEO",
+            "action":"",
+            "category":"",
+            "instance":"",
+            "tab":""
+          },
+          "properties":{
+            "tree":{
+              "default":"GEO",
+              "enum":[
+                "CFG",
+                "GEO",
+                "GRP",
+                "NET"
+              ]
+            },
+            "action":{
+              "description":"'Action Button' from the 'whereami' manual command.",
+              "type":"string",
+              "default":""
+            },
+            "category":{
+              "description":"'Category' from the 'whereami' manual command.",
+              "type":"string",
+              "default":""
+            },
+            "instance":{
+              "description":"'Instance' from the 'whereami' manual command.",
+              "type":"string",
+              "default":""
+            },
+            "tab":{
+              "description":"'Tab' from the 'whereami' manual command.",
+              "type":"string",
+              "default":""
+            }
+          }
+        },
         "validators":{
           "description":"All of the following data validators should be satisfied.",
           "type":"array",
@@ -640,7 +685,7 @@
                   "operator":"=="
                 }
               ],
-              "pattern":"",
+              "pattern":"^$",
               "message":"",
               "suggestion":""
             }
@@ -659,7 +704,7 @@
                   "operator":"=="
                 }
               ],
-              "pattern":"",
+              "pattern":"^$",
               "message":"",
               "suggestion":""
             },
@@ -860,6 +905,7 @@
           },
           "type":{
             "description":"The type of input for this parameter. Boolean inputs are shown to the user as a checkbox.",
+            "default":"string",
             "enum":[
               "string",
               "boolean"
