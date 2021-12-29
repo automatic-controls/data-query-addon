@@ -1,6 +1,6 @@
 <extension version="1">
-  <name>NodeReporter</name>
-  <description>Imports and exports node values as CSV data. Report parameters are defined using JSON files.</description>
+  <name>DataQueries</name>
+  <description>Imports and exports CSV data according to queries defined in JSON files.</description>
   <version>1.0.0</version>
   <vendor>Automatic Controls Equipment Systems, Inc.</vendor>
 </extension>
