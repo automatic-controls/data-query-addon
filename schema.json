@@ -27,6 +27,10 @@
           "const":"LocationType"
         },
         {
+          "description":"Returns whether this node represents a location.",
+          "const":"IsLocation"
+        },
+        {
           "description":"Returns the value of this node.",
           "const":"NodeValue"
         },
