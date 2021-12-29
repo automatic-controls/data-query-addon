@@ -652,6 +652,11 @@
                 "NET"
               ]
             },
+            "ID":{
+              "description":"The ID of a node to link to.",
+              "type":"string",
+              "default":""
+            },
             "action":{
               "description":"'Action Button' from the 'whereami' manual command.",
               "type":"string",
