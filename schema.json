@@ -770,15 +770,17 @@
         "data":{
           "$ref":"#/definitions/columnData"
         },
+        "hideWhenValid":{
+          "description":"Whether to hide this row when all columns are validated.",
+          "type":"boolean",
+          "default":false
+        },
         "columns":{
           "description":"Defines a list of columns for each node validated by this matcher.",
           "type":"array",
           "default":[
             {
-              "name":"",
-              "matchers":[
-                {}
-              ]
+              "name":""
             }
           ],
           "minItems":1,
