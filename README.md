@@ -1,5 +1,5 @@
-# NodeReporter
+# DataQueries
 
-WebCTRL add-on that imports and exports node values as CSV data. Report parameters are defined using JSON files.
+*WebCTRL* add-on that imports and exports *CSV* data according to queries defined in *JSON* files.
 
 WORK IN PROGRESS
