@@ -500,19 +500,41 @@
       "anyOf":[
         {
           "title":"DataReference",
-          "description":"Retrieves data from WebCTRL.",
+          "description":"If 'property' is present, then 'property' is resolved either relative to the current node or the node with the specified 'ID'. If 'property' is unspecified, then 'ID' may refer to a string constant (e.g, initialization parameter).",
           "type":"object",
           "default":{},
           "additionalProperties":false,
-          "required":["property"],
+          "minProperties":1,
           "properties":{
             "ID":{
-              "description":"References the node with the given ID.",
+              "description":"References the node or string constant with the given ID.",
               "type":"string",
               "default":""
             },
             "property":{
               "$ref":"#/definitions/data"
+            },
+            "transform":{
+              "description":"Optional regex transform used for preprocessing.",
+              "type":"object",
+              "default":{
+                "find":"^$",
+                "replace":"$1"
+              },
+              "additionalProperties":false,
+              "required":["find", "replace"],
+              "properties":{
+                "find":{
+                  "description":"Regular expression for matching subsets of the data.",
+                  "type":"string",
+                  "default":"^$"
+                },
+                "replace":{
+                  "description":"Replacements for data matched by the regular expression.",
+                  "type":"string",
+                  "default":"$1"
+                }
+              }
             }
           }
         },
@@ -797,19 +819,9 @@
           }
         }
       }
-    }
-  },
-  "description":"Root schema for node report definitions.",
-  "type":"object",
-  "additionalProperties":false,
-  "required":["matchers"],
-  "properties":{
-    "$schema":{
-      "description":"Location of the validation schema for this document.",
-      "type":"string"
     },
-    "matchers":{
-      "description":"",
+    "params":{
+      "description":"Initialization parameters provided by the user.",
       "type":"array",
       "additionalItems":false,
       "minItems":1,
@@ -818,7 +830,84 @@
         {}
       ],
       "items":{
-        "$ref":"#/definitions/nodeMatcher"
+        "description":"Initialization parameter provided by the user.",
+        "type":"object",
+        "additionalProperties":false,
+        "properties":{
+          "ID":{
+            "description":"ID of this parameter (may be referenced in expressions).",
+            "type":"string",
+            "default":""
+          },
+          "name":{
+            "description":"Name of this parameter to use when in prompts to the user.",
+            "type":"string",
+            "default":""
+          },
+          "pattern":{
+            "description":"Regular expression to validate the user's input for this parameter.",
+            "type":"string",
+            "default":"^$"
+          },
+          "message":{
+            "description":"If regex validation fails, this message is shown to the user.",
+            "type":"string",
+            "default":""
+          }
+        }
+      }
+    }
+  },
+  "description":"Root schema for node report definitions.",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["sections"],
+  "properties":{
+    "$schema":{
+      "description":"Location of the validation schema for this document.",
+      "type":"string",
+      "default":""
+    },
+    "params":{
+      "$ref":"#/definitions/params"
+    },
+    "sections":{
+      "description":"List of sections for the user to choose from.",
+      "type":"array",
+      "additionalItems":false,
+      "minItems":1,
+      "uniqueItems":true,
+      "default":[
+        {}
+      ],
+      "items":{
+        "description":"Defines a single section.",
+        "type":"object",
+        "additionalProperties":false,
+        "required":["name", "matchers"],
+        "properties":{
+          "name":{
+            "description":"The name for this section.",
+            "type":"string",
+            "default":""
+          },
+          "params":{
+            "$ref":"#/definitions/params"
+          },
+          "matchers":{
+            "description":"List of node matchers used to define the tables in this section.",
+            "type":"array",
+            "additionalItems":false,
+            "minItems":1,
+            "uniqueItems":true,
+            "default":[
+              {}
+            ],
+            "items":{
+              "$ref":"#/definitions/nodeMatcher"
+            }
+          }
+        }
       }
     }
   }
