@@ -554,34 +554,58 @@
     },
     "assertion":{
       "title":"Assertion",
-      "description":"Compare two values.",
-      "type":"object",
-      "default":{
-        "value1":{},
-        "value2":"",
-        "operator":"=="
-      },
-      "additionalProperties":false,
-      "required":["value1","value2","operator"],
-      "properties":{
-        "value1":{
-          "$ref":"#/definitions/dataConst"
+      "anyOf":[
+        {
+          "description":"Compare two values.",
+          "type":"object",
+          "default":{
+            "value1":{},
+            "value2":"",
+            "operator":"=="
+          },
+          "additionalProperties":false,
+          "required":["value1","value2","operator"],
+          "properties":{
+            "value1":{
+              "$ref":"#/definitions/dataConst"
+            },
+            "value2":{
+              "$ref":"#/definitions/dataConst"
+            },
+            "operator":{
+              "default":"==",
+              "enum":[
+                "==",
+                "!=",
+                "<=",
+                ">=",
+                "<",
+                ">"
+              ]
+            }
+          }
         },
-        "value2":{
-          "$ref":"#/definitions/dataConst"
-        },
-        "operator":{
-          "default":"==",
-          "enum":[
-            "==",
-            "!=",
-            "<=",
-            ">=",
-            "<",
-            ">"
-          ]
+        {
+          "description":"Validate data using regular expressions.",
+          "type":"object",
+          "default":{
+            "value":{},
+            "pattern":"^$"
+          },
+          "additionalProperties":false,
+          "required":["value","pattern"],
+          "properties":{
+            "value":{
+              "$ref":"#/definitions/dataConst"
+            },
+            "pattern":{
+              "description":"'value' must match the given regular expression.",
+              "type":"string",
+              "default":"^$"
+            }
+          }
         }
-      }
+      ]
     },
     "expression":{
       "title":"Expression",
@@ -691,7 +715,6 @@
                   "operator":"=="
                 }
               ],
-              "pattern":"^$",
               "message":"",
               "suggestion":""
             }
@@ -710,20 +733,14 @@
                   "operator":"=="
                 }
               ],
-              "pattern":"^$",
               "message":"",
               "suggestion":""
             },
-            "minProperties":1,
             "additionalProperties":false,
+            "required":["expression"],
             "properties":{
               "expression":{
                 "$ref":"#/definitions/expression"
-              },
-              "pattern":{
-                "description":"Requires the data to match the given regular expression.",
-                "type":"string",
-                "default":"^$"
               },
               "message":{
                 "description":"If validation fails, this message is shown to the user.",
@@ -763,16 +780,6 @@
           "description":"Used to reference matched nodes.",
           "type":"string",
           "default":""
-        },
-        "referenceName":{
-          "description":"Regular expression to match reference names against.",
-          "type":"string",
-          "default":"^$"
-        },
-        "displayName":{
-          "description":"Regular expression to match display names against.",
-          "type":"string",
-          "default":"^$"
         },
         "locationsOnly":{
           "description":"Whether to match locations only (i.e, do not match nodes that are not locations).",
