@@ -515,24 +515,30 @@
               "$ref":"#/definitions/data"
             },
             "transform":{
-              "description":"Optional regex transform used for preprocessing.",
-              "type":"object",
-              "default":{
-                "find":"^$",
-                "replace":"$1"
-              },
-              "additionalProperties":false,
-              "required":["find", "replace"],
-              "properties":{
-                "find":{
-                  "description":"Regular expression for matching subsets of the data.",
-                  "type":"string",
-                  "default":"^$"
+              "description":"List of optional regex transforms.",
+              "type":"array",
+              "minItems":1,
+              "additionalItems":false,
+              "items":{
+                "description":"Optional regex transform used for preprocessing.",
+                "type":"object",
+                "default":{
+                  "find":"^$",
+                  "replace":"$1"
                 },
-                "replace":{
-                  "description":"Replacements for data matched by the regular expression.",
-                  "type":"string",
-                  "default":"$1"
+                "additionalProperties":false,
+                "required":["find", "replace"],
+                "properties":{
+                  "find":{
+                    "description":"Regular expression for matching subsets of the data.",
+                    "type":"string",
+                    "default":"^$"
+                  },
+                  "replace":{
+                    "description":"Replacements for data matched by the regular expression.",
+                    "type":"string",
+                    "default":"$1"
+                  }
                 }
               }
             }
