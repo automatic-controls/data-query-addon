@@ -723,6 +723,11 @@
           "type":"string",
           "default":"^$"
         },
+        "locationsOnly":{
+          "description":"Whether to match locations only (i.e, do not match nodes that are not locations).",
+          "type":"boolean",
+          "default":false
+        },
         "aspects":{
           "description":"List of aspects to match against (logically bound by the AND operator).",
           "type":"array",
