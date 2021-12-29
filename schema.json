@@ -846,6 +846,7 @@
         "description":"Initialization parameter provided by the user.",
         "type":"object",
         "additionalProperties":false,
+        "required":["ID", "name", "type"],
         "properties":{
           "ID":{
             "description":"ID of this parameter (may be referenced in expressions).",
@@ -856,6 +857,13 @@
             "description":"Name of this parameter to use when in prompts to the user.",
             "type":"string",
             "default":""
+          },
+          "type":{
+            "description":"The type of input for this parameter. Boolean inputs are shown to the user as a checkbox.",
+            "enum":[
+              "string",
+              "boolean"
+            ]
           },
           "pattern":{
             "description":"Regular expression to validate the user's input for this parameter.",
