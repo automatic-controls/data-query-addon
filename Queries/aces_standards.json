@@ -1,0 +1,532 @@
+{
+  "$schema":"https://raw.githubusercontent.com/automatic-controls/data-query-addon/main/schema.json",
+  "hideWhenValid":true,
+  "sections":[
+    {
+      "name":"Controller Communication",
+      "matchers":[
+        {
+          "matchFlag":"POSSESIVE",
+          "maxDepth":0,
+          "expression":[
+            {
+              "value":{
+                "property":"LocationType"
+              },
+              "pattern":"^(?>Area|System)$"
+            }
+          ],
+          "next":[
+            {
+              "expression":[{"value":{"property":"AttachedEquipment"}}],
+              "columns":[
+                {
+                  "name":"Path",
+                  "data":{
+                    "value":{
+                      "property":"DisplayPath"
+                    },
+                    "link":{
+                      "tree": "GEO",
+                      "action": "properties",
+                      "category": "default",
+                      "instance": "equipment",
+                      "tab": "view"
+                    }
+                  }
+                },
+                {
+                  "name":"Ref Name",
+                  "data":{
+                    "value":{
+                      "property":"ReferenceName"
+                    }
+                  }
+                },
+                {
+                  "name":"Communicating",
+                  "data":{
+                    "value":{
+                      "property":"AttachedEquipment.Color",
+                      "transform":[
+                        {
+                          "find": "^(?!null$).*+$",
+                          "replace": "true"
+                        },
+                        {
+                          "find":"^null$",
+                          "replace":"false"
+                        }
+                      ]
+                    },
+                    "validators":[
+                      {
+                        "expression": [
+                          {
+                            "value": {
+                              "ID":"VALUE"
+                            }
+                          }
+                        ],
+                        "message":"Cannot communicate with controller."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name":"Alarm Sources",
+      "matchers":[
+        {
+          "matchFlag":"POSSESIVE",
+          "maxDepth":0,
+          "expression":[
+            {
+              "value":{
+                "property":"LocationType"
+              },
+              "pattern":"^(?>Area|System)$"
+            }
+          ],
+          "next":[
+            {
+              "ID":"E",
+              "expression":[
+                {
+                  "value1": {
+                    "property":"AttachedEquipment.Color"
+                  },
+                  "value2": "null",
+                  "operator": "!="
+                }
+              ],
+              "next":[
+                {
+                  "expression":[
+                    {
+                      "value":{"property":"IsLocation"}
+                    }
+                  ],
+                  "maxDepth":0,
+                  "next":[
+                    {
+                      "ID":"alarm_source",
+                      "expression":[
+                        [
+                          {"value":{"property":"AlarmSource"}},
+                          {
+                            "value1": {
+                              "property":"GQL(.node-type)"
+                            },
+                            "value2": "215",
+                            "operator": "!="
+                          }
+                        ]
+                      ],
+                      "columns":[
+                        {
+                          "name":"Equipment",
+                          "data":{
+                            "value":{
+                              "ID":"E",
+                              "property":"DisplayName"
+                            },
+                            "link":{
+                              "ID":"E",
+                              "tree": "GEO",
+                              "action": "properties",
+                              "category": "default",
+                              "instance": "equipment",
+                              "tab": "events"
+                            }
+                          }
+                        },
+                        {
+                          "name":"Display Name",
+                          "data":{
+                            "value":{
+                              "property":"DisplayName"
+                            },
+                            "link":{
+                              "tree":"GEO"
+                            }
+                          }
+                        },
+                        {
+                          "name":"Ref Name",
+                          "data":{
+                            "value":{
+                              "property":"ReferenceName"
+                            }
+                          }
+                        },
+                        {
+                          "name": "Potential Alarm Source",
+                          "data":[
+                            {
+                              "ID":"pot_alarm",
+                              "expression":[{"value":{"property":"ReferenceName"}, "pattern":"^~event_is_alarm_source$"}],
+                              "data":{
+                                "value":{
+                                  "property":"NodeValue"
+                                },
+                                "validators":[
+                                  {
+                                    "expression": [
+                                      {
+                                        "value": {
+                                          "ID":"VALUE"
+                                        },
+                                        "pattern":"^true$"
+                                      },
+                                      {
+                                        "value1":{
+                                          "property":"GQL(.node-type)"
+                                        },
+                                        "value2":"268",
+                                        "operator":"!="
+                                      }
+                                    ],
+                                    "message": "BALM alarms should be potential alarm sources.",
+                                    "suggestion": "true"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name":"Network Visible",
+                          "data":[
+                            {
+                              "expression":[
+                                {
+                                  "value":{ "property":"ReferenceName" },
+                                  "pattern":"^network_visible$"
+                                }
+                              ],
+                              "data":{
+                                "value": {
+                                  "property":"NodeValue"
+                                },
+                                "validators":[
+                                  {
+                                    "expression":[
+                                      {
+                                        "value":{ "ID":"VALUE" },
+                                        "pattern":"^true$"
+                                      }
+                                    ],
+                                    "message": "Alarms should be network visible.",
+                                    "suggestion": "true"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name":"Acknowledge Alarm",
+                          "data":[
+                            {
+                              "expression":[
+                                {
+                                  "value":{ "property":"ReferenceName" },
+                                  "pattern":"^~event_alarm_acked$"
+                                }
+                              ],
+                              "data":{
+                                "value": {
+                                  "property":"NodeValue"
+                                },
+                                "validators":[
+                                  {
+                                    "expression":[
+                                      {
+                                        "value1": {
+                                          "ID":"VALUE"
+                                        },
+                                        "value2": "false",
+                                        "operator": "=="
+                                      },
+                                      [
+                                        {
+                                          "value1":{
+                                            "ID":"alarm_source",
+                                            "property":"GQL(.node-type)"
+                                          },
+                                          "value2":"268",
+                                          "operator":"!="
+                                        },
+                                        {
+                                          "value1":{
+                                            "ID":"pot_alarm",
+                                            "property":"NodeValue"
+                                          },
+                                          "value2":"false",
+                                          "operator":"=="
+                                        }
+                                      ]
+                                    ],
+                                    "message": "Alarm sources should not require acknowledgement.",
+                                    "suggestion": "false"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name":"Acknowledge Return",
+                          "data":[
+                            {
+                              "expression":[
+                                {
+                                  "value":{ "property":"ReferenceName" },
+                                  "pattern":"^~event_return_acked$"
+                                }
+                              ],
+                              "data":{
+                                "value": {
+                                  "property":"NodeValue"
+                                },
+                                "validators":[
+                                  {
+                                    "expression":[
+                                      {
+                                        "value1": {
+                                          "ID":"VALUE"
+                                        },
+                                        "value2": "false",
+                                        "operator": "=="
+                                      },
+                                      [
+                                        {
+                                          "value1":{
+                                            "ID":"alarm_source",
+                                            "property":"GQL(.node-type)"
+                                          },
+                                          "value2":"268",
+                                          "operator":"!="
+                                        },
+                                        {
+                                          "value1":{
+                                            "ID":"pot_alarm",
+                                            "property":"NodeValue"
+                                          },
+                                          "value2":"false",
+                                          "operator":"=="
+                                        }
+                                      ]
+                                    ],
+                                    "message": "Alarm sources should not require acknowledgement.",
+                                    "suggestion": "false"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name":"Category",
+                          "data":[
+                            {
+                              "expression":[
+                                {
+                                  "value":{ "property":"ReferenceName" },
+                                  "pattern":"^~event_category$"
+                                }
+                              ],
+                              "data":{
+                                "value": {
+                                  "property":"NodeValue"
+                                },
+                                "validators":[
+                                  {
+                                    "expression":[
+                                      [
+                                        {
+                                          "value1": {
+                                            "ID":"VALUE"
+                                          },
+                                          "value2": "other",
+                                          "operator": "!="
+                                        },
+                                        {
+                                          "value1": {
+                                            "ID":"VALUE"
+                                          },
+                                          "value2": "unknown",
+                                          "operator": "!="
+                                        }
+                                      ],
+                                      [
+                                        {
+                                          "value1":{
+                                            "ID":"alarm_source",
+                                            "property":"GQL(.node-type)"
+                                          },
+                                          "value2":"268",
+                                          "operator":"!="
+                                        },
+                                        {
+                                          "value1":{
+                                            "ID":"pot_alarm",
+                                            "property":"NodeValue"
+                                          },
+                                          "value2":"false",
+                                          "operator":"=="
+                                        }
+                                      ]
+                                    ],
+                                    "message": "Alarm sources should have a valid category."
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name":"Trend Sources",
+      "params":[
+        {
+          "ID":"BTRN",
+          "name":"Include BTRN Network Trends",
+          "type":"boolean",
+          "default":"false"
+        }
+      ],
+      "matchers":[
+        {
+          "matchFlag":"POSSESIVE",
+          "maxDepth":0,
+          "expression":[
+            {
+              "value":{
+                "property":"LocationType"
+              },
+              "pattern":"^(?>Area|System)$"
+            }
+          ],
+          "next":[
+            {
+              "ID":"E",
+              "expression":[
+                {
+                  "value1": {
+                    "property":"AttachedEquipment.Color"
+                  },
+                  "value2": "null",
+                  "operator": "!="
+                }
+              ],
+              "next":[
+                {
+                  "maxDepth":0,
+                  "expression":[
+                    {
+                      "value":{"property":"IsLocation"}
+                    }
+                  ],
+                  "next":[
+                    {
+                      "ID":"trend_source",
+                      "expression":[{"value":{"property":"TrendSource"}}]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name":"I/O Points",
+      "matchers":[
+        {
+          "matchFlag":"POSSESIVE",
+          "maxDepth":0,
+          "expression":[
+            {
+              "value":{
+                "property":"LocationType"
+              },
+              "pattern":"^(?>Area|System)$"
+            }
+          ],
+          "next":[
+            {
+              "ID":"E",
+              "expression":[
+                {
+                  "value1": {
+                    "property":"AttachedEquipment.Color"
+                  },
+                  "value2": "null",
+                  "operator": "!="
+                }
+              ],
+              "next":[
+                {
+                  
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name":"Network Points",
+      "matchers":[
+        {
+          "matchFlag":"POSSESIVE",
+          "maxDepth":0,
+          "expression":[
+            {
+              "value":{
+                "property":"LocationType"
+              },
+              "pattern":"^(?>Area|System)$"
+            }
+          ],
+          "next":[
+            {
+              "ID":"E",
+              "expression":[
+                {
+                  "value1": {
+                    "property":"AttachedEquipment.Color"
+                  },
+                  "value2": "null",
+                  "operator": "!="
+                }
+              ],
+              "next":[
+                {
+                  
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
