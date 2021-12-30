@@ -965,6 +965,11 @@
             "type":"string",
             "default":""
           },
+          "default":{
+            "description":"Whether this section should be selected by default.",
+            "type":"boolean",
+            "default":false
+          },
           "params":{
             "$ref":"#/definitions/params"
           },
