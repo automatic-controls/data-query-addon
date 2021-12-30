@@ -609,9 +609,10 @@
     },
     "expression":{
       "title":"Expression",
-      "description":"List of assertions logically bound by the OR operator.",
+      "description":"List of assertions.",
       "type":"array",
       "default":[
+        "AND",
         {
           "value1":{},
           "value2":"",
@@ -620,20 +621,16 @@
       ],
       "minItems":1,
       "uniqueItems":true,
-      "additionalItems":false,
-      "items":{
+      "items":[
+        {
+          "description":"The operator used to bind listed assertions.",
+          "enum":["AND","OR"]
+        }
+      ],
+      "additionalItems":{
         "anyOf":[
           {
-            "title":"AssertionList",
-            "description":"List of assertions logically bound by the AND operator.",
-            "type":"array",
-            "default":[],
-            "minItems":1,
-            "uniqueItems":true,
-            "additionalItems":false,
-            "items":{
-              "$ref":"#/definitions/assertion"
-            }
+            "$ref":"#/definitions/expression"
           },
           {
             "$ref":"#/definitions/assertion"
@@ -779,7 +776,8 @@
         "ID":{
           "description":"Used to reference matched nodes.",
           "type":"string",
-          "default":""
+          "default":"",
+          "pattern":"^[^/]+$"
         },
         "expression":{
           "$ref":"#/definitions/expression"
