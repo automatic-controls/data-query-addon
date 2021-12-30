@@ -549,6 +549,9 @@
           "description":"A constant string value.",
           "type":"string",
           "default":""
+        },
+        {
+          "$ref":"#/definitions/expression"
         }
       ]
     },
@@ -619,7 +622,7 @@
           "operator":"=="
         }
       ],
-      "minItems":1,
+      "minItems":2,
       "uniqueItems":true,
       "items":[
         {
@@ -798,6 +801,39 @@
           "description":"Flag which may affect match semantics.",
           "default":"ALL",
           "enum":["ALL", "GREEDY", "RELUCTANT", "POSSESIVE"]
+        },
+        "variables":{
+          "description":"List of variables to define for matched nodes.",
+          "type":"array",
+          "default":[
+            {
+              "ID":"",
+              "value":{}
+            }
+          ],
+          "minItems":1,
+          "uniqueItems":true,
+          "additionalItems":false,
+          "items":{
+            "description":"Defines one variable.",
+            "type":"object",
+            "default":{
+              "ID":"",
+              "value":{}
+            },
+            "required":["ID","value"],
+            "additionalProperties":false,
+            "properties":{
+              "ID":{
+                "description":"Identifier for this variable.",
+                "type":"string",
+                "default":""
+              },
+              "value":{
+                "$ref":"#/definitions/dataConst"
+              }
+            }
+          }
         },
         "next":{
           "description":"Each matcher listed here is tested against every matched node.",
