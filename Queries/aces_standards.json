@@ -4,11 +4,14 @@
   "sections":[
     {
       "name":"Controller Communication",
+      "default":true,
       "matchers":[
         {
           "matchFlag":"POSSESIVE",
+          "minDepth":0,
           "maxDepth":0,
           "expression":[
+            "AND",
             {
               "value":{
                 "property":"LocationType"
@@ -18,7 +21,7 @@
           ],
           "next":[
             {
-              "expression":[{"value":{"property":"AttachedEquipment"}}],
+              "expression":["AND",{"value":{"property":"AttachedEquipment"}}],
               "columns":[
                 {
                   "name":"Path",
@@ -62,6 +65,7 @@
                     "validators":[
                       {
                         "expression": [
+                          "AND",
                           {
                             "value": {
                               "ID":"VALUE"
@@ -84,8 +88,10 @@
       "matchers":[
         {
           "matchFlag":"POSSESIVE",
+          "minDepth":0,
           "maxDepth":0,
           "expression":[
+            "AND",
             {
               "value":{
                 "property":"LocationType"
@@ -97,6 +103,7 @@
             {
               "ID":"E",
               "expression":[
+                "AND",
                 {
                   "value1": {
                     "property":"AttachedEquipment.Color"
@@ -108,6 +115,7 @@
               "next":[
                 {
                   "expression":[
+                    "AND",
                     {
                       "value":{"property":"IsLocation"}
                     }
@@ -117,16 +125,15 @@
                     {
                       "ID":"alarm_source",
                       "expression":[
-                        [
-                          {"value":{"property":"AlarmSource"}},
-                          {
-                            "value1": {
-                              "property":"GQL(.node-type)"
-                            },
-                            "value2": "215",
-                            "operator": "!="
-                          }
-                        ]
+                        "AND",
+                        {"value":{"property":"AlarmSource"}},
+                        {
+                          "value1": {
+                            "property":"GQL(.node-type)"
+                          },
+                          "value2": "215",
+                          "operator": "!="
+                        }
                       ],
                       "columns":[
                         {
@@ -170,7 +177,7 @@
                           "data":[
                             {
                               "ID":"pot_alarm",
-                              "expression":[{"value":{"property":"ReferenceName"}, "pattern":"^~event_is_alarm_source$"}],
+                              "expression":["AND",{"value":{"property":"ReferenceName"}, "pattern":"^~event_is_alarm_source$"}],
                               "data":{
                                 "value":{
                                   "property":"NodeValue"
@@ -178,11 +185,11 @@
                                 "validators":[
                                   {
                                     "expression": [
+                                      "OR",
                                       {
                                         "value": {
                                           "ID":"VALUE"
-                                        },
-                                        "pattern":"^true$"
+                                        }
                                       },
                                       {
                                         "value1":{
@@ -205,6 +212,7 @@
                           "data":[
                             {
                               "expression":[
+                                "AND",
                                 {
                                   "value":{ "property":"ReferenceName" },
                                   "pattern":"^network_visible$"
@@ -217,9 +225,9 @@
                                 "validators":[
                                   {
                                     "expression":[
+                                      "AND",
                                       {
-                                        "value":{ "ID":"VALUE" },
-                                        "pattern":"^true$"
+                                        "value":{ "ID":"VALUE" }
                                       }
                                     ],
                                     "message": "Alarms should be network visible.",
@@ -235,6 +243,7 @@
                           "data":[
                             {
                               "expression":[
+                                "AND",
                                 {
                                   "value":{ "property":"ReferenceName" },
                                   "pattern":"^~event_alarm_acked$"
@@ -247,6 +256,7 @@
                                 "validators":[
                                   {
                                     "expression":[
+                                      "OR",
                                       {
                                         "value1": {
                                           "ID":"VALUE"
@@ -255,6 +265,7 @@
                                         "operator": "=="
                                       },
                                       [
+                                        "AND",
                                         {
                                           "value1":{
                                             "ID":"alarm_source",
@@ -286,6 +297,7 @@
                           "data":[
                             {
                               "expression":[
+                                "AND",
                                 {
                                   "value":{ "property":"ReferenceName" },
                                   "pattern":"^~event_return_acked$"
@@ -298,6 +310,7 @@
                                 "validators":[
                                   {
                                     "expression":[
+                                      "OR",
                                       {
                                         "value1": {
                                           "ID":"VALUE"
@@ -306,6 +319,7 @@
                                         "operator": "=="
                                       },
                                       [
+                                        "AND",
                                         {
                                           "value1":{
                                             "ID":"alarm_source",
@@ -337,6 +351,7 @@
                           "data":[
                             {
                               "expression":[
+                                "AND",
                                 {
                                   "value":{ "property":"ReferenceName" },
                                   "pattern":"^~event_category$"
@@ -349,7 +364,9 @@
                                 "validators":[
                                   {
                                     "expression":[
+                                      "OR",
                                       [
+                                        "AND",
                                         {
                                           "value1": {
                                             "ID":"VALUE"
@@ -366,6 +383,7 @@
                                         }
                                       ],
                                       [
+                                        "AND",
                                         {
                                           "value1":{
                                             "ID":"alarm_source",
@@ -414,8 +432,10 @@
       "matchers":[
         {
           "matchFlag":"POSSESIVE",
+          "minDepth":0,
           "maxDepth":0,
           "expression":[
+            "AND",
             {
               "value":{
                 "property":"LocationType"
@@ -427,6 +447,7 @@
             {
               "ID":"E",
               "expression":[
+                "AND",
                 {
                   "value1": {
                     "property":"AttachedEquipment.Color"
@@ -439,6 +460,7 @@
                 {
                   "maxDepth":0,
                   "expression":[
+                    "AND",
                     {
                       "value":{"property":"IsLocation"}
                     }
@@ -446,81 +468,16 @@
                   "next":[
                     {
                       "ID":"trend_source",
-                      "expression":[{"value":{"property":"TrendSource"}}]
+                      "expression":[
+                        
+                      ],
+                      "columns":[
+                        {
+                          "name": ""
+                        }
+                      ]
                     }
                   ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name":"I/O Points",
-      "matchers":[
-        {
-          "matchFlag":"POSSESIVE",
-          "maxDepth":0,
-          "expression":[
-            {
-              "value":{
-                "property":"LocationType"
-              },
-              "pattern":"^(?>Area|System)$"
-            }
-          ],
-          "next":[
-            {
-              "ID":"E",
-              "expression":[
-                {
-                  "value1": {
-                    "property":"AttachedEquipment.Color"
-                  },
-                  "value2": "null",
-                  "operator": "!="
-                }
-              ],
-              "next":[
-                {
-                  
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name":"Network Points",
-      "matchers":[
-        {
-          "matchFlag":"POSSESIVE",
-          "maxDepth":0,
-          "expression":[
-            {
-              "value":{
-                "property":"LocationType"
-              },
-              "pattern":"^(?>Area|System)$"
-            }
-          ],
-          "next":[
-            {
-              "ID":"E",
-              "expression":[
-                {
-                  "value1": {
-                    "property":"AttachedEquipment.Color"
-                  },
-                  "value2": "null",
-                  "operator": "!="
-                }
-              ],
-              "next":[
-                {
-                  
                 }
               ]
             }

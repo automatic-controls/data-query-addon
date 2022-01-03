@@ -6,6 +6,7 @@
       "matchers":[
         {
           "expression":[
+            "AND",
             {
               "value":{
                 "property":"LocationType"
@@ -19,6 +20,7 @@
             {
               "ID":"E",
               "expression":[
+                "AND",
                 {
                   "value":{
                     "property":"LocationType"
@@ -29,6 +31,7 @@
               "next":[
                 {
                   "expression":[
+                    "AND",
                     {
                       "value1":{
                         "property":"GQL(.node-type)"
@@ -52,6 +55,7 @@
                       "data":[
                         {
                           "expression":[
+                            "AND",
                             {
                               "value1":{
                                 "property":"ReferenceName"
@@ -73,6 +77,7 @@
                       "data":[
                         {
                           "expression":[
+                            "AND",
                             {
                               "value1":{
                                 "property":"ReferenceName"
@@ -94,6 +99,7 @@
                       "data":[
                         {
                           "expression":[
+                            "AND",
                             {
                               "value1":{
                                 "property":"ReferenceName"
@@ -115,6 +121,7 @@
                       "data":[
                         {
                           "expression":[
+                            "AND",
                             {
                               "value1":{
                                 "property":"ReferenceName"
@@ -136,6 +143,7 @@
                       "data":[
                         {
                           "expression":[
+                            "AND",
                             {
                               "value1":{
                                 "property":"ReferenceName"
@@ -157,6 +165,7 @@
                       "data":[
                         {
                           "expression":[
+                            "AND",
                             {
                               "value1":{
                                 "property":"ReferenceName"
